@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body class="bg-gray-50">
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="ml-64 p-8">
+    <!-- Header principal -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Formulario de empresa -->
+    <div th:replace="~{fragments/users/user-form :: user-form}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="recent-activity" class="bg-white p-6 rounded-xl shadow-sm">
+        <h3 class="font-semibold mb-4">Actividad Reciente</h3>
+        <p class="text-sm text-gray-600 mb-4">Últimos movimientos realizados en el sistema</p>
+        
+        <div class="space-y-4">
+            <div th:each="activity : ${recentMovements}" class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                <div>
+                    <p class="font-semibold" th:text="|${activity.createdBy.company.name} - ${activity.type.getType()}|"></p>
+                    <p class="text-sm text-gray-600">
+                        <span th:text="${activity.createdBy.name}">Usuario</span> •
+                        <span th:text="${activity.amount}"></span>
+                    </p>
+                </div>
+                <p class="text-sm text-gray-500" th:text="${activity.createdOn}"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

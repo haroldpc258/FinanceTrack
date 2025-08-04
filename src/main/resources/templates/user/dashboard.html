@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body class="bg-gray-50">
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    
+    <div class="ml-64 p-8">
+        <!-- Header -->
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <!-- Navigation -->
+        <div th:replace="~{fragments/navigation :: navigation}"></div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+            <!-- Total Revenue -->
+            <div th:replace="~{fragments/dashboard/user-stats-card :: stats-card(
+                title='Ingresos Totales',
+                value=${totalRevenue},
+                change=${revenueChange},
+                icon='<path d=\'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\'></path>',
+                trend=${revenueTrend},
+                trendColor=${revenueTrendColor}
+            )}"></div>
+
+            <!-- Expenses -->
+            <div th:replace="~{fragments/dashboard/user-stats-card :: stats-card(
+                title='Gastos Totales',
+                value=${expenses},
+                change=${expensesChange},
+                icon='<path d=\'M21 12V7H5a2 2 0 0 1 0-4h14v4\'/><path d=\'M3 5v14a2 2 0 0 0 2 2h16v-5\'/><path d=\'M18 12H8\'/>',
+                trend=${expensesTrend},
+                trendColor=${expensesTrendColor}
+            )}"></div>
+
+            <!-- Active Employees -->
+            <div th:replace="~{fragments/dashboard/user-stats-card :: stats-card(
+                title='Empleados Activos',
+                value=${activeEmployees},
+                change=${employeesChange},
+                icon='<path d=\'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\'/><circle cx=\'9\' cy=\'7\' r=\'4\'/><path d=\'M22 21v-2a4 4 0 0 0-3-3.87\'/><path d=\'M16 3.13a4 4 0 0 1 0 7.75\'/>',
+                trend=${employeesTrend},
+                trendColor=${employeesTrendColor}
+            )}"></div>
+
+            <!-- Profit Margin -->
+            <div th:replace="~{fragments/dashboard/user-stats-card :: stats-card(
+                title='Margen de Beneficios',
+                value=${profitMargin},
+                change=${profitMarginChange},
+                icon='<circle cx=\'12\' cy=\'12\' r=\'10\'/><path d=\'M8 14s1.5 2 4 2 4-2 4-2\'/><line x1=\'9\' y1=\'9\' x2=\'9.01\' y2=\'9\'/><line x1=\'15\' y1=\'9\' x2=\'15.01\' y2=\'9\'/>',
+                trend=${profitMarginTrend},
+                trendColor=${profitMarginTrendColor}
+            )}"></div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div th:replace="~{fragments/dashboard/recent-movements :: recent-movements}"></div>
+    </div>
+</body>
+</html>

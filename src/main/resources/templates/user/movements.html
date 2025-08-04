@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body class="bg-gray-50">
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    
+    <div class="ml-64 p-8">
+        <!-- Header principal -->
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <!-- Navigation -->
+        <div th:replace="~{fragments/navigation :: navigation}"></div>
+
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <!-- Header principal -->
+            <div th:replace="~{fragments/movements/header :: movements-header}"></div>
+
+            <!-- Barra de búsqueda y filtros -->
+            <div th:replace="~{fragments/movements/search-bar :: search-bar}"></div>
+
+            <!-- Tabla de movimientos -->
+            <div th:replace="~{fragments/movements/table :: movements-table}"></div>
+        </div>
+
+    </div>
+
+    <script th:inline="javascript">
+        function toggleDropdown(movementId) {
+            document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
+                if (dropdown.id !== `dropdown-${movementId}`) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+
+            // Toggle del dropdown actual
+            const dropdown = document.getElementById(`dropdown-${movementId}`);
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+
+                const closeDropdown = (e) => {
+                    if (!e.target.closest(`#dropdown-${movementId}`) &&
+                        !e.target.closest(`button[onclick*="${movementId}"]`)) {
+                        dropdown.classList.add('hidden');
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                };
+
+                setTimeout(() => {
+                    document.addEventListener('click', closeDropdown);
+                }, 100);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const typeSelect = document.getElementById('typeSelect');
+            const dateInput = document.getElementById('dateInput');
+            const clearFiltersButton = document.getElementById('clearFiltersButton');
+            const tableRows = document.querySelectorAll('tbody tr');
+            const counterElement = document.getElementById('counter');
+
+            function filterTable() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const typeFilter = typeSelect.value;
+                const dateFilter = dateInput.value;
+
+                let visibleCount = 0;
+
+                tableRows.forEach(row => {
+                    // Obtener el tipo de movimiento del span
+                    const typeSpan = row.querySelector('td:nth-child(5) span');
+                    const movementType = typeSpan ? typeSpan.textContent.trim().toLowerCase() : '';
+
+                    // Obtener fecha completa
+                    const fullDate = row.querySelector('td:nth-child(1)').textContent.trim();
+
+                    // Buscar en descripción y responsable
+                    const description = row.querySelector('td:nth-child(2) span')?.textContent.toLowerCase() || '';
+                    const responsable = row.querySelector('td:nth-child(3) span')?.textContent.toLowerCase() || '';
+
+                    const matchesSearch = searchTerm === '' ||
+                        description.includes(searchTerm) ||
+                        responsable.includes(searchTerm);
+
+                    const matchesType = typeFilter === '' ||
+                        (typeFilter === 'income' && movementType === 'ingreso') ||
+                        (typeFilter === 'expense' && movementType === 'gasto');
+
+                    // Extraer solo la parte de la fecha
+                    const dateOnly = fullDate.split(' ')[0];
+
+                    const matchesDate = dateFilter === '' ||
+                        dateOnly === dateFilter.split('-').reverse().join('/');
+
+                    if (matchesSearch && matchesType && matchesDate) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                // Actualizar contador
+                counterElement.textContent = `Mostrando ${visibleCount} de ${tableRows.length} movimientos`;
+            }
+
+            function clearFilters() {
+                searchInput.value = '';
+                typeSelect.value = '';
+                dateInput.value = '';
+
+                tableRows.forEach(row => {
+                    row.style.display = '';
+                });
+
+                // Restablecer contador
+                counterElement.textContent = `Mostrando ${tableRows.length} de ${tableRows.length} movimientos`;
+            }
+
+            // Agregar listeners de eventos
+            searchInput.addEventListener('input', filterTable);
+            typeSelect.addEventListener('change', filterTable);
+            dateInput.addEventListener('change', filterTable);
+            clearFiltersButton.addEventListener('click', clearFilters);
+        });
+    </script>
+</body>
+</html>

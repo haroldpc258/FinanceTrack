@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body class="bg-gray-50">
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    
+    <div class="ml-64 p-8">
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <!-- Navigation -->
+        <div th:replace="~{fragments/navigation :: navigation}"></div>
+        
+        <div class="grid grid-cols-4 gap-6 mb-8">
+            <div th:replace="~{fragments/dashboard/admin-stats-card :: stats-card(
+                title='Total Empresas',
+                value=${totalCompanies},
+                change=|+${companiesThisMonth} este mes|,
+                icon='<svg xmlns=\'http://www.w3.org/2000/svg\' class=\'h-5 w-5\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><path d=\'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\'></path><polyline points=\'9 22 9 12 15 12 15 22\'></polyline></svg>'
+            )}"></div>
+            
+            <div th:replace="~{fragments/dashboard/admin-stats-card :: stats-card(
+                title='Total Usuarios',
+                value=${totalUsers},
+                change=|+${usersThisMonth} este mes|,
+                icon='<svg xmlns=\'http://www.w3.org/2000/svg\' class=\'h-5 w-5\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>'
+            )}"></div>
+            
+            <div th:replace="~{fragments/dashboard/admin-stats-card :: stats-card(
+                title='Total Movimientos',
+                value=${totalMovements},
+                change=|+${movementsThisMonth} este mes|,
+                icon='<svg xmlns=\'http://www.w3.org/2000/svg\' class=\'h-5 w-5\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'></circle><path d=\'M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8\'></path><path d=\'M12 6v2m0 8v2\'></path></svg>'
+            )}"></div>
+            
+            <div th:replace="~{fragments/dashboard/admin-stats-card :: stats-card(
+                title='Actividad del Sistema',
+                value=${activityLevel},
+                change=|+${#numbers.formatDecimal(activityPercentageChange, 0, 0)}% esta semana|,
+                icon='<svg xmlns=\'http://www.w3.org/2000/svg\' class=\'h-5 w-5\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><polyline points=\'22 12 18 12 15 21 9 3 6 12 2 12\'></polyline></svg>'
+            )}"></div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-6">
+            <div th:replace="~{fragments/dashboard/recent-companies :: recent-companies}"></div>
+            <div th:replace="~{fragments/dashboard/recent-activity :: recent-activity}"></div>
+        </div>
+    </div>
+</body>
+</html>

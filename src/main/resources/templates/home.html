@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
+            <!-- Panel izquierdo -->
+            <div th:replace="~{fragments/left-panel :: left-panel}"></div>
+            
+            <!-- Panel derecho -->
+            <div th:replace="~{fragments/login-form :: login-form}"></div>
+        </div>
+    </div>
+</body>
+</html>

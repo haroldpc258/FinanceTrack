@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="users-header" class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold mb-4">Gestión de Usuarios</h1>
+            <p class="text-gray-600"
+               th:text="|Administra todos los usuarios registrados en ${companies == null ? 'la empresa' : 'el sistema'}|"></p>
+        </div>
+        
+        <a th:if="${companies == null} and ${sub.role.role != 'operative'}"
+           th:href="@{|/companies/${company.id}/users/new|}" class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Nuevo Usuario</span>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="movement-form" class="bg-white rounded-xl shadow-sm p-8">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-2">Información del Movimiento</h2>
+        <p class="text-gray-600">Ingresa la información relacionada con el movimiento financiero</p>
+    </div>
+
+    <form id="movement-form"
+          th:action="${movement.id == null ? '/companies/' + companyId + '/movements' : '/companies/' + companyId + '/movements/' + movement.id}"
+          th:method="${movement.id == null ? 'post' : 'put'}"
+          th:object="${movement}"
+          class="space-y-8">
+
+        <div class="grid grid-cols-2 gap-8">
+            <div>
+                <label for="movement-type" class="block text-sm font-medium text-gray-700 mb-2">
+                    Tipo de Movimiento
+                </label>
+                <div class="relative">
+                    <select th:field="*{type}"
+                            id="movement-type"
+                            class="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2.5 px-4 pr-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="INCOME">Ingreso</option>
+                        <option value="EXPENSE">Gasto</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="movement-amount" class="block text-sm font-medium text-gray-700 mb-2">
+                    Monto
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500">$</span>
+                    </div>
+                    <input type="number"
+                           th:field="*{amount}"
+                           id="movement-amount"
+                           step="0.01"
+                           min="0"
+                           placeholder="0.00"
+                           required
+                           class="w-full pl-8 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="movement-concept" class="block text-sm font-medium text-gray-700 mb-2">
+                Descripción del Movimiento
+            </label>
+            <textarea th:field="*{concept}"
+                      id="movement-concept"
+                      rows="4"
+                      placeholder="Describe el propósito o detalles del movimiento..."
+                      class="w-full border border-gray-300 rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+            ></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-4 pt-4">
+            <a th:href="@{|/companies/${companyId}/movements|}"
+                    class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                Cancelar
+            </a>
+            <button form="movement-form"
+                    type="submit"
+                    onclick="return confirm('¿Estás seguro de la información ingresada?')"
+                    class="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
+                </svg>
+                <span>Guardar</span>
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

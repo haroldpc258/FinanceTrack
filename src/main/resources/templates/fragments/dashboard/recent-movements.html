@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="recent-movements" class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-semibold mb-4">Movimientos Recientes</h2>
+        <p class="text-gray-600 mb-6">Se han hecho <span th:text="${totalMovementsThisMoth}"></span> movimientos este mes.</p>
+
+        <table class="min-w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-left text-sm font-semibold text-gray-600 pb-4">FECHA</th>
+                    <th class="text-left text-sm font-semibold text-gray-600 pb-4">DESCRIPCIÓN</th>
+                    <th class="text-left text-sm font-semibold text-gray-600 pb-4">MONTO</th>
+                    <th class="text-left text-sm font-semibold text-gray-600 pb-4">TIPO</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                <tr th:each="movement : ${recentMovements}" class="hover:bg-gray-50">
+                    <td class="py-4 text-sm text-gray-600" th:text="${movement.createdOn}"></td>
+                    <td class="py-4">
+                        <span class="text-sm font-medium text-gray-900" th:text="${movement.concept}"></span>
+                    </td>
+                    <td class="py-4 text-sm" th:text="${#numbers.formatDecimal(movement.amount, 0, 'POINT', 2, 'COMMA')}"></td>
+                    <td class="py-4">
+                        <span th:if="${movement.type.getType() == 'expense'}"
+                              class="px-2 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full">
+                            Gasto
+                        </span>
+                        <span th:if="${movement.type.getType() == 'income'}"
+                              class="px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
+                            Ingreso
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

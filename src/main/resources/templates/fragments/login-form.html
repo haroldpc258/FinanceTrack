@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+    <div th:fragment="login-form" class="bg-white p-12 rounded-2xl shadow-lg text-center">
+        <h2 class="text-3xl font-bold mb-2">Bienvenido a FinanceTrack</h2>
+        <p class="text-gray-600 mb-12">Accede a tu cuenta para gestionar tus finanzas empresariales</p>
+        
+        <div class="flex justify-center mb-12">
+            <div class="flex items-center justify-center">
+                <img src="https://static.vecteezy.com/system/resources/previews/050/523/909/non_2x/the-logo-for-global-business-solutions-free-png.png"
+                     class="h-32 w-32 text-blue-500"/>
+            </div>
+        </div>
+
+        <p class="text-gray-600 mb-8">Inicia sesión de forma segura y sencilla utilizando tu correo electrónico.</p>
+
+        <a th:href="${#authorization.expression('isAuthenticated()')} ? @{/dashboard} : @{/oauth2/authorization/okta}"
+           class="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            <span>Iniciar sesión</span>
+        </a>
+
+        <p class="mt-8 text-sm text-gray-500">
+            Al iniciar sesión, aceptas nuestros 
+            <a href="/" class="text-blue-600 hover:underline">términos de servicio</a> y
+            <a href="/" class="text-blue-600 hover:underline">política de privacidad</a>.
+        </p>
+    </div>
+</body>
+</html>

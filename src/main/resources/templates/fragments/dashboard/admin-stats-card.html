@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="stats-card(title, value, change, icon)" class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-semibold" th:text="${title}">Título</h3>
+            <div class="h-5 w-5 text-blue-600" th:utext="${icon}"></div>
+        </div>
+        <p class="text-3xl font-bold" th:text="${value}">0</p>
+        <p th:class="${change.startsWith('+') ? 'text-green-500' : 'text-gray-500'} + ' text-sm'" th:text="${change}">Sin cambios</p>
+    </div>
+</body>
+</html>
+

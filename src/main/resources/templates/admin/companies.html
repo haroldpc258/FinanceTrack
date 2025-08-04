@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head}"></head>
+<body class="bg-gray-50">
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+
+    <div class="ml-64 p-8">
+        <!-- Header principal -->
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <!-- Navigation -->
+        <div th:replace="~{fragments/navigation :: navigation}"></div>
+
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <!-- Header de empresas -->
+            <div th:replace="~{fragments/companies/header :: companies-header}"></div>
+
+            <!-- Barra de búsqueda y filtros -->
+            <div th:replace="~{fragments/companies/search-bar :: search-bar}"></div>
+
+            <!-- Tabla de empresas -->
+            <div th:replace="~{fragments/companies/table :: companies-table}"></div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        function toggleDropdown(companyId) {
+            document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
+                if (dropdown.id !== `dropdown-${companyId}`) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+
+            // Toggle del dropdown actual
+            const dropdown = document.getElementById(`dropdown-${companyId}`);
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+
+                const closeDropdown = (e) => {
+                    if (!e.target.closest(`#dropdown-${companyId}`) &&
+                        !e.target.closest(`button[onclick*="${companyId}"]`)) {
+                        dropdown.classList.add('hidden');
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                };
+
+                setTimeout(() => {
+                    document.addEventListener('click', closeDropdown);
+                }, 100);
+            }
+        }
+
+        // Función para filtrar la tabla de empresas
+        function filterCompanies() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const usersFilter = document.getElementById('usersFilter').value;
+
+            const rows = document.querySelectorAll('tbody tr');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const name = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                const usersCount = parseInt(row.querySelector('td:nth-child(2)').textContent);
+                const statusElement = row.querySelector('td:nth-child(3) span');
+                const status = statusElement ? statusElement.textContent.trim().toLowerCase() : '';
+                const creationDate = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+                // Aplicar filtros
+                const matchesSearch = name.includes(searchTerm) || creationDate.includes(searchTerm);
+
+                const matchesStatus = statusFilter === '' ||
+                    (statusFilter === 'active' && status.includes('activa')) ||
+                    (statusFilter === 'suspended' && status.includes('suspendida'));
+
+                const matchesUsers = usersFilter === '' ||
+                    (usersFilter === 'with-users' && usersCount > 0) ||
+                    (usersFilter === 'no-users' && usersCount === 0);
+
+                // Mostrar u ocultar la fila según los filtros
+                if (matchesSearch && matchesStatus && matchesUsers) {
+                    row.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            // Actualizar el contador de empresas si existe
+            const countElement = document.getElementById('counter');
+            if (countElement) {
+                const totalCompanies = rows.length;
+                countElement.textContent = `Mostrando ${visibleCount} de ${totalCompanies} empresas`;
+            }
+        }
+
+        function clearFilters() {
+            // Limpiar campo de búsqueda
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = '';
+            }
+
+            // Resetear todos los selectores a la opción predeterminada
+            const selects = ['statusFilter', 'usersFilter'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.value = '';
+                }
+            });
+
+            // Aplicar los filtros (ahora vacíos) para mostrar todas las filas
+            filterCompanies();
+        }
+
+        // Inicializar eventos cuando el DOM está cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Evento para la búsqueda en tiempo real
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', filterCompanies);
+            }
+
+            // Eventos para los selectores de filtro
+            const statusFilter = document.getElementById('statusFilter');
+            if (statusFilter) {
+                statusFilter.addEventListener('change', filterCompanies);
+            }
+
+            const usersFilter = document.getElementById('usersFilter');
+            if (usersFilter) {
+                usersFilter.addEventListener('change', filterCompanies);
+            }
+
+            // Evento para el botón limpiar
+            const filterButton = document.getElementById('clearFiltersButton');
+            if (filterButton) {
+                filterButton.addEventListener('click', clearFilters);
+            }
+        });
+    </script>
+</body>
+</html>

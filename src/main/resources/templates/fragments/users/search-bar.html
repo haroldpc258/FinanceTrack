@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="search-bar" class="justify-between items-center mb-6">
+    <div class="flex space-x-4">
+        <div class="flex-1">
+            <div class="relative w-auto">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Buscar usuarios..."
+                       class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+        </div>
+
+        <div th:if="${companies != null}" class="w-48">
+            <select id="companyFilter" class="w-full border border-gray-300 rounded-lg py-2 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Todas las empresas</option>
+                <option th:each="company : ${companies}"
+                        th:value="${company.id}"
+                        th:text="${company.name}">Empresa</option>
+            </select>
+        </div>
+
+        <div class="w-48">
+            <select id="roleFilter" class="w-full border border-gray-300 rounded-lg py-2 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Todos los roles</option>
+                <option value="ADMINISTRATOR">Administrador</option>
+                <option value="OPERATIVE">Operativo</option>
+            </select>
+        </div>
+
+        <div class="w-48">
+            <select id="statusFilter" class="w-full border border-gray-300 rounded-lg py-2 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Todos los estados</option>
+                <option value="active">Activo</option>
+                <option value="suspended">Suspendido</option>
+            </select>
+        </div>
+
+        <button id="clearFiltersButton" class="w-auto px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+            Limpiar
+        </button>
+    </div>
+</div>
+</body>
+</html>
+

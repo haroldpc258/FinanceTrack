@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="recent-companies" class="bg-white p-6 rounded-xl shadow-sm">
+        <h3 class="font-semibold mb-4">Empresas Recientes</h3>
+        <p class="text-sm text-gray-600 mb-4">Últimas empresas registradas en el sistema</p>
+        
+        <div class="space-y-4">
+            <div th:each="company : ${recentCompanies}" class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                <div>
+                    <p class="font-semibold" th:text="${company.getName()}">Nombre Empresa</p>
+                    <p class="text-sm text-gray-600" th:text="${company.getNit()}">NIT</p>
+                </div>
+                <p class="text-sm text-gray-500" th:text="${company.getCreatedOn()}">Fecha</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

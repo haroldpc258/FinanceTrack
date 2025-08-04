@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="stats-card(title, value, change, icon, trend, trendColor)" class="bg-white p-6 rounded-xl shadow-sm">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-gray-600" th:text="${title}">Card Title</h3>
+        <div class="h-5 w-5" th:classappend="${'text-' + trendColor + '-500'}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" th:utext="${icon}"></svg>
+        </div>
+    </div>
+    <div class="flex items-baseline">
+        <span class="text-2xl font-bold" th:text="${value}">0</span>
+    </div>
+    <div class="mt-2 flex items-center text-sm" th:classappend="${'text-' + trendColor + '-500'}">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline th:if="${trend == 'up'}" points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline th:if="${trend == 'up'}" points="17 6 23 6 23 12"></polyline>
+            <polyline th:if="${trend == 'down'}" points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+            <polyline th:if="${trend == 'down'}" points="17 18 23 18 23 12"></polyline>
+        </svg>
+        <span th:text="${change}">Sin cambios</span>
+    </div>
+</div>
+</body>
+</html>
